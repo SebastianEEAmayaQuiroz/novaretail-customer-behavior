@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NovaRetail+ — Análisis de Comportamiento de Clientes 2024</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0b0e14;
+    --bg2: #13161f;
+    --bg3: #1a1e2a;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #e8eaf2;
+    --text2: #8b90a8;
+    --text3: #5a6080;
+    --accent: #4f8ef7;
+    --accent2: #6ee7c2;
+    --accent3: #f7a84f;
+    --red: #f76f6f;
+    --tag-bg: rgba(79,142,247,0.12);
+    --tag-color: #7ab2fa;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    padding: 100px 24px 80px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 900px 500px at 60% 0%, rgba(79,142,247,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 500px 300px at 20% 80%, rgba(110,231,194,0.07) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(79,142,247,0.1);
+    border: 1px solid rgba(79,142,247,0.25);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    color: var(--text);
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--text2);
+    max-width: 620px;
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
+
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 48px;
+  }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--tag-color);
+    border: 1px solid rgba(79,142,247,0.2);
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .tag.green { background: rgba(110,231,194,0.1); color: var(--accent2); border-color: rgba(110,231,194,0.2); }
+  .tag.amber { background: rgba(247,168,79,0.1); color: var(--accent3); border-color: rgba(247,168,79,0.2); }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .stat-cell {
+    background: var(--bg2);
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .stat-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--text);
+  }
+  .stat-number.accent { color: var(--accent); }
+  .stat-number.green { color: var(--accent2); }
+  .stat-number.amber { color: var(--accent3); }
+  .stat-label { font-size: 13px; color: var(--text3); }
+
+  /* ─── SECTIONS ─── */
+  section { max-width: 900px; margin: 0 auto; padding: 72px 24px; }
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 3.5vw, 40px);
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 40px;
+    color: var(--text);
+  }
+
+  /* ─── CONTEXT BLOCK ─── */
+  .context-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  @media(max-width:600px){ .context-grid { grid-template-columns: 1fr; } }
+  .context-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+  .context-card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .icon-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .icon-dot.blue { background: var(--accent); }
+  .icon-dot.green { background: var(--accent2); }
+  .icon-dot.amber { background: var(--accent3); }
+  .context-card p { font-size: 14px; color: var(--text2); line-height: 1.6; }
+
+  /* ─── METHODOLOGY ─── */
+  .method-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .method-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .method-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .method-card.blue::before { background: var(--accent); }
+  .method-card.green::before { background: var(--accent2); }
+  .method-card.amber::before { background: var(--accent3); }
+  .method-card.red::before { background: var(--red); }
+  .method-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .method-type {
+    font-size: 12px;
+    color: var(--text3);
+    margin-bottom: 12px;
+  }
+  .method-desc { font-size: 13px; color: var(--text2); line-height: 1.5; }
+
+  /* ─── FINDINGS ─── */
+  .findings-list { display: flex; flex-direction: column; gap: 24px; }
+  .finding-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+    transition: border-color 0.2s;
+  }
+  .finding-card:hover { border-color: var(--border2); }
+
+  .finding-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 48px;
+    line-height: 1;
+    color: var(--bg3);
+    font-weight: 400;
+    min-width: 56px;
+    text-align: right;
+  }
+  .finding-content h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .finding-corr {
+    display: inline-block;
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    margin-bottom: 10px;
+  }
+  .finding-corr.high { color: var(--accent); }
+  .finding-corr.mid { color: var(--accent3); }
+  .finding-corr.low { color: var(--text3); }
+  .finding-p { font-size: 14px; color: var(--text2); line-height: 1.65; margin-bottom: 16px; }
+  .implication {
+    background: rgba(110,231,194,0.06);
+    border-left: 2px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+  .implication strong { color: var(--accent2); }
+
+  /* ─── CORRELATION TABLE ─── */
+  .corr-table-wrap {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { border-bottom: 1px solid var(--border); }
+  th {
+    padding: 16px 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text3);
+    text-align: left;
+  }
+  td {
+    padding: 14px 20px;
+    font-size: 14px;
+    color: var(--text2);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  tr:last-child td { border-bottom: none; }
+  .corr-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    font-weight: 400;
+  }
+  .bar-wrap {
+    width: 120px;
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .bar-fill { height: 100%; border-radius: 2px; }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  .badge.strong { background: rgba(79,142,247,0.15); color: var(--accent); }
+  .badge.mid { background: rgba(247,168,79,0.15); color: var(--accent3); }
+  .badge.weak { background: rgba(255,255,255,0.06); color: var(--text3); }
+
+  /* ─── DATASET ─── */
+  .dataset-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .field-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .field-name {
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'DM Sans', monospace;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .field-desc { font-size: 12px; color: var(--text3); }
+  .field-card.target {
+    border-color: rgba(79,142,247,0.3);
+    background: rgba(79,142,247,0.06);
+  }
+  .field-card.target .field-name { color: #7ab2fa; }
+
+  /* ─── NEXT STEPS ─── */
+  .steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    counter-reset: steps;
+  }
+  .step-item {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  .step-num {
+    width: 40px; height: 40px;
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text3);
+    flex-shrink: 0;
+    font-family: 'DM Serif Display', serif;
+  }
+  .step-text strong { display: block; font-size: 15px; color: var(--text); margin-bottom: 4px; }
+  .step-text span { font-size: 13px; color: var(--text3); }
+
+  /* ─── DIVIDER ─── */
+  hr { border: none; border-top: 1px solid var(--border); }
+
+  /* ─── FOOTER CTA ─── */
+  .cta-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 72px 24px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: center;
+  }
+  @media(max-width:600px){ .cta-section { grid-template-columns: 1fr; } }
+  .cta-section h2 { font-size: 28px; margin-bottom: 8px; }
+  .cta-section p { font-size: 15px; color: var(--text3); }
+  .cta-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.15s;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: #6b9df7; }
+  .btn-secondary {
+    background: var(--bg3);
+    color: var(--text);
+    border: 1px solid var(--border2);
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.07); }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text3);
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── HERO ─── -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span></span>
+      Análisis Correlacional · NovaRetail+ · 2024
+    </div>
+    <h1>¿Qué impulsa el<br><em>ingreso anual</em><br>de un cliente?</h1>
+    <p class="hero-sub">Análisis exploratorio de comportamiento de clientes sobre 15,000 registros de la plataforma de e-commerce NovaRetail+ en Latinoamérica.</p>
+
+    <div class="hero-tags">
+      <span class="tag">Python</span>
+      <span class="tag">Pandas</span>
+      <span class="tag">NumPy</span>
+      <span class="tag">Seaborn</span>
+      <span class="tag">Matplotlib</span>
+      <span class="tag">SciPy</span>
+      <span class="tag green">Spearman</span>
+      <span class="tag green">Punto-biserial</span>
+      <span class="tag green">V de Cramér</span>
+      <span class="tag amber">E-Commerce</span>
+      <span class="tag amber">Business Intelligence</span>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-cell">
+        <span class="stat-number accent">15,000</span>
+        <span class="stat-label">registros de clientes</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-number green">0.97</span>
+        <span class="stat-label">correlación más fuerte encontrada</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-number amber">4</span>
+        <span class="stat-label">métodos estadísticos aplicados</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-number">5</span>
+        <span class="stat-label">hallazgos de negocio</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ─── CONTEXT ─── -->
+<section>
+  <div class="section-label">Contexto</div>
+  <h2>El problema de negocio</h2>
+  <div class="context-grid">
+    <div class="context-card">
+      <h3><span class="icon-dot blue"></span>La pregunta</h3>
+      <p>¿Qué factores del comportamiento del cliente están más fuertemente asociados con el ingreso anual generado para la plataforma?</p>
+    </div>
+    <div class="context-card">
+      <h3><span class="icon-dot green"></span>El equipo</h3>
+      <p>El área de <strong>Crecimiento y Retención</strong> de NovaRetail+ necesitaba evidencia estadística para priorizar dónde invertir recursos de cara al cierre de 2024.</p>
+    </div>
+    <div class="context-card">
+      <h3><span class="icon-dot amber"></span>El enfoque</h3>
+      <p>Análisis <strong>correlacional exploratorio</strong>. No buscamos causalidad — buscamos señales confiables para orientar hipótesis y experimentos futuros.</p>
+    </div>
+    <div class="context-card">
+      <h3><span class="icon-dot blue"></span>El dato clave</h3>
+      <p><code>ingreso_anual</code> tiene distribución asimétrica positiva: muchos clientes en cero, pocos de alto valor. Esto condicionó la elección del método estadístico.</p>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ─── METHODOLOGY ─── -->
+<section>
+  <div class="section-label">Metodología</div>
+  <h2>Un método por tipo de variable</h2>
+  <div class="method-grid">
+    <div class="method-card blue">
+      <div class="method-name">Spearman</div>
+      <div class="method-type">Numérica ↔ Numérica</div>
+      <div class="method-desc">Ideal para relaciones no lineales y distribuciones asimétricas. No asume normalidad.</div>
+    </div>
+    <div class="method-card green">
+      <div class="method-name">Punto-biserial</div>
+      <div class="method-type">Continua ↔ Binaria</div>
+      <div class="method-desc">Usado para medir la asociación entre variables 0/1 y la variable objetivo continua.</div>
+    </div>
+    <div class="method-card amber">
+      <div class="method-name">V de Cramér</div>
+      <div class="method-type">Categórica ↔ Categórica</div>
+      <div class="method-desc">Mide la fuerza de asociación entre variables nominales sin orden inherente.</div>
+    </div>
+  </div>
+  <p style="font-size:14px; color: var(--text3); margin-top: 8px;">⚠️ <strong style="color:var(--text2)">Supuesto central:</strong> Este análisis identifica asociaciones estadísticas. No establece relaciones causales ni permite hacer predicciones deterministas.</p>
+</section>
+
+<hr>
+
+<!-- ─── FINDINGS ─── -->
+<section>
+  <div class="section-label">Hallazgos</div>
+  <h2>Lo que encontramos</h2>
+  <div class="findings-list">
+
+    <div class="finding-card">
+      <div class="finding-num">01</div>
+      <div class="finding-content">
+        <h3>compras_mes domina el ingreso anual</h3>
+        <div class="finding-corr high">r = 0.97</div>
+        <p class="finding-p">La cantidad de compras mensuales tiene una correlación casi perfecta con el ingreso anual generado. Es, con diferencia, la variable más predictiva del dataset. El coeficiente de determinación aproximado es R² ≈ 0.94, lo que significa que las compras explican el 94% de la varianza del ingreso.</p>
+        <div class="implication"><strong>Implicación:</strong> Los programas de segunda y tercera compra (cupones post-compra, puntos de lealtad, recomendaciones personalizadas post-transacción) tienen el mayor ROI potencial de todas las iniciativas posibles.</div>
+      </div>
+    </div>
+
+    <div class="finding-card">
+      <div class="finding-num">02</div>
+      <div class="finding-content">
+        <h3>Las visitas tienen un efecto moderado e indirecto</h3>
+        <div class="finding-corr mid">r = 0.32</div>
+        <p class="finding-p">Las visitas a la plataforma muestran una correlación moderada con el ingreso, pero la relación parece estar mediada por las compras. No toda visita se convierte en compra — hay clientes con alta frecuencia de visita pero baja compra visible en los scatterplots.</p>
+        <div class="implication"><strong>Implicación:</strong> Más tráfico no garantiza más ingresos. Optimizar la tasa de conversión (checkout simplificado, recordatorios de carrito abandonado) es más rentable que invertir solo en captación de visitas.</div>
+      </div>
+    </div>
+
+    <div class="finding-card">
+      <div class="finding-num">03</div>
+      <div class="finding-content">
+        <h3>La membresía premium no explica el ingreso por sí sola</h3>
+        <div class="finding-corr low">r = 0.09</div>
+        <p class="finding-p">Los clientes premium generan ligeramente más ingresos que los no premium, pero la diferencia es mínima. La membresía premium es estadísticamente significativa (p &lt; 0.001) gracias al tamaño de la muestra, pero su magnitud real es muy baja.</p>
+        <div class="implication"><strong>Implicación:</strong> El valor del cliente premium está condicionado a su comportamiento de compra, no a la membresía en sí. Un cliente premium que no compra es igual de poco valioso que uno no premium.</div>
+      </div>
+    </div>
+
+    <div class="finding-card">
+      <div class="finding-num">04</div>
+      <div class="finding-content">
+        <h3>Región y dispositivo: impacto nulo</h3>
+        <div class="finding-corr low">V ≈ 0.01</div>
+        <p class="finding-p">Ninguna variable categórica (región geográfica, tipo de dispositivo) muestra asociación relevante con el ingreso generado. Los clientes de norte, sur, este y oeste, así como de móvil, tablet y escritorio, se comportan de manera estadísticamente similar.</p>
+        <div class="implication"><strong>Implicación:</strong> Las estrategias de crecimiento pueden ser uniformes — no se justifica una segmentación geográfica o por dispositivo para optimizar ingresos en este momento.</div>
+      </div>
+    </div>
+
+    <div class="finding-card">
+      <div class="finding-num">05</div>
+      <div class="finding-content">
+        <h3>Demografía y satisfacción no predicen el valor del cliente</h3>
+        <div class="finding-corr low">r &lt; 0.07</div>
+        <p class="finding-p">Edad, nivel de ingreso personal del cliente y satisfacción muestran correlaciones prácticamente nulas con el ingreso anual generado. Un cliente de alto poder adquisitivo, mayor edad o alta satisfacción no necesariamente genera más ingresos para NovaRetail+.</p>
+        <div class="implication"><strong>Implicación:</strong> El foco de segmentación y las campañas deben basarse en <strong>comportamiento observable</strong> (compras, visitas), no en variables demográficas o perceptuales.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr>
+
+<!-- ─── CORRELATION TABLE ─── -->
+<section>
+  <div class="section-label">Resumen estadístico</div>
+  <h2>Todas las correlaciones con ingreso_anual</h2>
+  <div class="corr-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Variable</th>
+          <th>Método</th>
+          <th>Coeficiente</th>
+          <th>Fuerza</th>
+          <th>Barra</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600; color:var(--text)">compras_mes</td>
+          <td>Spearman</td>
+          <td><span class="corr-val" style="color:var(--accent)">0.9675</span></td>
+          <td><span class="badge strong">Muy fuerte</span></td>
+          <td><div class="bar-wrap"><div class="bar-fill" style="width:96.75%; background:var(--accent)"></div></div></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600; color:var(--text)">visitas_mes</td>
+          <td>Spearman</td>
+          <td><span class="corr-val" style="color:var(--accent3)">0.3210</span></td>
+          <td><span class="badge mid">Moderada</span></td>
+          <td><div class="bar-wrap"><div class="bar-fill" style="width:32.1%; background:var(--accent3)"></div></div></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600; color:var(--text)">gasto_publicidad_dirigida</td>
+          <td>Spearman</td>
+          <td><span class="corr-val" style="color:var(--accent3)">0.1900</span></td>
+          <td><span class="badge mid">Débil</span></td>
+          <td><div class="bar-wrap"><div class="bar-fill" style="width:19%; background:var(--accent3)"></div></div></td>
+        </tr>
+        <tr>
+          <td>miembro_premium</td>
+          <td>Punto-biserial</td>
+          <td><span class="corr-val" style="color:var(--text3)">0.0931</span></td>
+          <td><span class="badge weak">Muy débil</span></td>
+          <td><div class="bar-wrap"><div class="bar-fill" style="width:9.3%; background:var(--text3)"></div></div></td>
+        </tr>
+        <tr>
+          <td>satisfaccion</td>
+          <td>Spearman</td>
+          <td><span class="corr-val" style="color:var(--text3)">0.0608</span></td>
+          <td><span class="badge weak">Nula</span></td>
+          <td><div class="bar-wrap"><div class="bar-fill" style="width:6.1%; background:var(--text3)"></div></div></td>
+        </tr>
+        <tr>
+          <td>nivel_ingreso</td>
+          <td>Spearman</td>
+          <td><span class="corr-val" style="color:var(--text3)">0.0250</span></td>
+          <td><span class="badge weak">Nula</span></td>
+          <td><div class="bar-wrap"><div class="bar-fill" style="width:2.5%; background:var(--text3)"></div></div></td>
+        </tr>
+        <tr>
+          <td>abandono</td>
+          <td>Punto-biserial</td>
+          <td><span class="corr-val" style="color:var(--text3)">-0.0028</span></td>
+          <td><span class="badge weak">Nula</span></td>
+          <td><div class="bar-wrap"><div class="bar-fill" style="width:0.3%; background:var(--text3)"></div></div></td>
+        </tr>
+        <tr>
+          <td>tipo_dispositivo</td>
+          <td>V de Cramér</td>
+          <td><span class="corr-val" style="color:var(--text3)">0.0145</span></td>
+          <td><span class="badge weak">Nula</span></td>
+          <td><div class="bar-wrap"><div class="bar-fill" style="width:1.5%; background:var(--text3)"></div></div></td>
+        </tr>
+        <tr>
+          <td>region</td>
+          <td>V de Cramér</td>
+          <td><span class="corr-val" style="color:var(--text3)">0.0172</span></td>
+          <td><span class="badge weak">Nula</span></td>
+          <td><div class="bar-wrap"><div class="bar-fill" style="width:1.7%; background:var(--text3)"></div></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr>
+
+<!-- ─── DATASET ─── -->
+<section>
+  <div class="section-label">Dataset</div>
+  <h2>Variables analizadas</h2>
+  <div class="dataset-grid">
+    <div class="field-card"><div class="field-name">id_cliente</div><div class="field-desc">Identificador único del cliente</div></div>
+    <div class="field-card"><div class="field-name">edad</div><div class="field-desc">Edad del cliente (18–75 años)</div></div>
+    <div class="field-card"><div class="field-name">nivel_ingreso</div><div class="field-desc">Ingreso personal estimado del cliente</div></div>
+    <div class="field-card"><div class="field-name">visitas_mes</div><div class="field-desc">Visitas a la app/sitio por mes (1–25)</div></div>
+    <div class="field-card"><div class="field-name">compras_mes</div><div class="field-desc">Compras realizadas en el mes (0–8)</div></div>
+    <div class="field-card"><div class="field-name">gasto_publicidad_dirigida</div><div class="field-desc">Gasto en anuncios asignado al usuario</div></div>
+    <div class="field-card"><div class="field-name">satisfaccion</div><div class="field-desc">Calificación de satisfacción (1–5)</div></div>
+    <div class="field-card"><div class="field-name">miembro_premium</div><div class="field-desc">Suscripción premium: 1=sí / 0=no (13.9%)</div></div>
+    <div class="field-card"><div class="field-name">abandono</div><div class="field-desc">Abandono de plataforma: 1=sí / 0=no (15.1%)</div></div>
+    <div class="field-card"><div class="field-name">tipo_dispositivo</div><div class="field-desc">Móvil / Tablet / Escritorio</div></div>
+    <div class="field-card"><div class="field-name">region</div><div class="field-desc">Norte / Sur / Este / Oeste</div></div>
+    <div class="field-card target"><div class="field-name">★ ingreso_anual</div><div class="field-desc">Variable objetivo — ingreso generado para NovaRetail+ (0–244.69)</div></div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ─── NEXT STEPS ─── -->
+<section>
+  <div class="section-label">Continuación</div>
+  <h2>Próximos pasos</h2>
+  <div class="steps-list">
+    <div class="step-item">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>Segmentación por frecuencia de compra</strong>
+        <span>Crear clusters baja / media / alta frecuencia y analizar patrones diferenciales de comportamiento dentro de cada segmento.</span>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>Análisis de clientes con ingreso_anual = 0</strong>
+        <span>Identificar por qué el percentil 25 de clientes no genera ingresos y qué los podría activar.</span>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>Modelado predictivo</strong>
+        <span>Desarrollar un modelo Random Forest o XGBoost para predecir ingreso_anual y validar los hallazgos correlacionales con importancia de features.</span>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">4</div>
+      <div class="step-text">
+        <strong>Análisis longitudinal</strong>
+        <span>Incorporar datos de meses anteriores para evaluar tendencias, estacionalidad y cohortes de retención.</span>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">5</div>
+      <div class="step-text">
+        <strong>Experimentación A/B</strong>
+        <span>Diseñar experimentos para medir el impacto causal de incentivos de segunda compra sobre el ingreso anual.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ─── CTA ─── -->
+<div class="cta-section">
+  <div>
+    <h2 style="font-family:'DM Serif Display',serif; font-weight:400;">Ver el análisis completo</h2>
+    <p>El notebook con todo el código, visualizaciones y análisis estadístico detallado está disponible en GitHub.</p>
+  </div>
+  <div class="cta-buttons">
+    <a href="https://github.com/SebastianEEAmayaQuiroz" class="btn btn-primary" target="_blank">Ver en GitHub</a>
+    <a href="https://www.linkedin.com/in/sebastianamayada" class="btn btn-secondary" target="_blank">LinkedIn</a>
+  </div>
+</div>
+
+<footer>
+  Sebastián Amaya · Analista de Datos · Bootcamp TripleTen 2025–2026
+</footer>
+
+</body>
+</html>
