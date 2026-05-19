@@ -1,5 +1,12 @@
 <div align="center">
 
+<!-- BANNER PRINCIPAL — click redirige a la página web del proyecto -->
+<a href="https://sebastianeeamayaquiroz.github.io/novaretail-customer-behavior/" target="_blank">
+  <img src="https://img.shields.io/badge/🌐%20Ver%20Proyecto%20Completo%20en%20Web-%20Haz%20click%20aquí-4f8ef7?style=for-the-badge&labelColor=0b0e14&color=4f8ef7" alt="Ver proyecto completo" />
+</a>
+
+<br/><br/>
+
 <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
 <img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white" />
 <img src="https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white" />
@@ -130,6 +137,7 @@ Variables demográficas y perceptuales no predicen el valor del cliente para Nov
 novaretail-customer-behavior/
 ├── novaretail_comportamiento_clientes_2024.csv   # Dataset (15,000 registros)
 ├── S8_Student_Version-Project-NovaRetail.ipynb   # Notebook principal
+├── index.html                                     # Página web del proyecto (GitHub Pages)
 └── README.md
 ```
 
