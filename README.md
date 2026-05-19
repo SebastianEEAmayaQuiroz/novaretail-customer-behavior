@@ -135,18 +135,6 @@ novaretail-customer-behavior/
 
 ---
 
-## 🚀 Abrir el notebook
-
-<div align="center">
-
-[![Open in Jupyter](https://img.shields.io/badge/Jupyter_Notebook-F37626?style=for-the-badge&logo=jupyter&logoColor=white)](./S8_Student_Version-Project-NovaRetail.ipynb)
-
-</div>
-
-> Si no tienes el entorno configurado localmente, puedes subir el notebook a [Google Colab](https://colab.research.google.com/) o [Kaggle Notebooks](https://www.kaggle.com/code) de forma gratuita.
-
----
-
 ## 🔮 Próximos pasos sugeridos
 
 1. **Segmentación por frecuencia de compra** — Crear clusters (baja / media / alta) y analizar comportamientos diferenciales
